@@ -2,6 +2,7 @@ import React from 'react'
 import Note from './components/Note'
 import Notification from './components/Notification'
 import noteService from './services/notes'
+import loginService from './services/login'
 
 class App extends React.Component {
 	constructor(props) {
@@ -71,9 +72,23 @@ class App extends React.Component {
 		}
 	}
 
-	login = (event) => {
+	login = async (event) => {
 		event.preventDefault()
-		console.log('login in with', this.state.username, this.state.password)
+		//console.log('login in with', this.state.username, this.state.password)
+		try {
+			const user = await loginService.login({
+				username: this.state.username,
+				password: this.state.password
+			})
+			this.setState({ username: '', password: '', user })
+		} catch (exception) {
+			this.setState({
+				error: 'käyttäjätunnus tai salasana virheellinen'
+			})
+			setTimeout(() => {
+				this.setState({ error: null })
+			}, 5000)
+		}
 	}
 
 	handleNoteChange = (event) => {

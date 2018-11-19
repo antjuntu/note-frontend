@@ -100,6 +100,48 @@ class App extends React.Component {
 	}
 
 	render() {
+		const loginForm = () => (
+			<div>
+				<h2>Kirjaudu</h2>
+
+					<form onSubmit={this.login}>
+						<div>
+							käyttäjätunnus
+							<input
+								type="text"
+								name="username"
+								value={this.state.username}
+								onChange={this.handleLoginFieldChange}
+							/>
+						</div>
+						<div>
+							salasana
+							<input
+								type="password"
+								name="password"
+								value={this.state.password}
+								onChange={this.handleLoginFieldChange}
+							/>
+						</div>
+						<button type="submit">kirjaudu</button>
+					</form>
+				</div>
+		)
+		
+		const noteForm = () => (
+			<div>
+				<h2>Luo uusi muistiinpano</h2>
+
+				<form onSubmit={this.addNote}>
+					<input
+						value={this.state.newNote}
+						onChange={this.handleNoteChange}
+					/>
+					<button type="submit">tallenna</button>
+				</form>
+			</div>
+		)
+
 		const notesToShow = this.state.showAll ?
 			this.state.notes :
 			this.state.notes.filter(note => note.important)
@@ -112,42 +154,15 @@ class App extends React.Component {
 
 				<Notification message={this.state.error} />
 
-				<h2>Kirjaudu</h2>
-
-				<form onSubmit={this.login}>
+				{this.state.user === null ?
+					loginForm() :
 					<div>
-						käyttäjätunnus
-						<input
-							type="text"
-							name="username"
-							value={this.state.username}
-							onChange={this.handleLoginFieldChange}
-						/>
+						<p>{this.state.user.name} logged in</p>
+						{noteForm()}
 					</div>
-					<div>
-						salasana
-						<input
-							type="password"
-							name="password"
-							value={this.state.password}
-							onChange={this.handleLoginFieldChange}
-						/>
-					</div>
-					<button type="submit">kirjaudu</button>
-				</form>
-
-				<h2>Luo uusi muistiinpano</h2>
-
-				<form onSubmit={this.addNote}>
-					<input
-						value={this.state.newNote}
-						onChange={this.handleNoteChange}
-					/>
-					<button type="submit">tallenna</button>
-				</form>
-
-				<Notification message={this.state.error} />
+				}
 				
+				<h2>Muistiinpanot</h2>
 				<div>
 					<button onClick={this.toggleVisible}>
 						näytä {label}

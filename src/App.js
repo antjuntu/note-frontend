@@ -18,12 +18,19 @@ class App extends React.Component {
 		}
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		noteService
 			.getAll()
 			.then(notes => {
 				this.setState({ notes })
 			})
+		
+		const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+		if (loggedUserJSON) {
+			const user = JSON.parse(loggedUserJSON)
+			this.setState({ user })
+			noteService.setToken(user.token)
+		}
 	}
 
 	toggleVisible = () => {
@@ -80,6 +87,7 @@ class App extends React.Component {
 				username: this.state.username,
 				password: this.state.password
 			})
+			window.localStorage.setItem('loggedNoteappUser', JSON.stringify(user))
 			noteService.setToken(user.token)
 			this.setState({ username: '', password: '', user })
 		} catch (exception) {

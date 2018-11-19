@@ -80,6 +80,7 @@ class App extends React.Component {
 				username: this.state.username,
 				password: this.state.password
 			})
+			noteService.setToken(user.token)
 			this.setState({ username: '', password: '', user })
 		} catch (exception) {
 			this.setState({

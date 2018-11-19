@@ -80,12 +80,8 @@ class App extends React.Component {
 		this.setState({ newNote: event.target.value })
 	}
 
-	handleUserNameChange = (event) => {
-		this.setState({ username: event.target.value })
-	}
-
-	handlePasswordChange = (event) => {
-		this.setState({ password: event.target.value })
+	handleLoginFieldChange = (event) => {
+		this.setState({ [event.target.name]: event.target.value })
 	}
 
 	render() {
@@ -108,16 +104,18 @@ class App extends React.Component {
 						käyttäjätunnus
 						<input
 							type="text"
+							name="username"
 							value={this.state.username}
-							onChange={this.handleUserNameChange}
+							onChange={this.handleLoginFieldChange}
 						/>
 					</div>
 					<div>
 						salasana
 						<input
 							type="password"
+							name="password"
 							value={this.state.password}
-							onChange={this.handlePasswordChange}
+							onChange={this.handleLoginFieldChange}
 						/>
 					</div>
 					<button type="submit">kirjaudu</button>
